@@ -1,29 +1,38 @@
 #!/usr/bin/env python
-import sys
-import os
-import multiprocessing
-import numpy
-
-import lib.csv.csv as csv
+import random
+import datetime
+import lib.data.dataset as dataset
 
 class Picker(object):
-    """Object which pickes items from given CSV"""
-    def __init__(self, CSV):
-        self.CSV = CSV
-        self.list_size = self.CSV.list_size
+    """Object which pickes items from given dataset"""
+    def __init__(self, in_dataset):
+        now = datetime.datetime.now()
+        seed = now.year+now.month+now.day+now.hour+now.minute+now.second++now.microsecond
+        random.seed(seed)
+        self.dataset = in_dataset
 
     # Ask user for size of sample
     def ask_samplesize(self):
         while True:
-            print('How large do you want your sample (max '+str(self.list_size)+')?')
+            print('How large do you want your sample)?')
             choice = input('')
             if len(choice) == 0 or not choice.isdigit():
                 print('Please provide a number')
-            elif int(choice) > self.list_size:
-                print('Specify a number less than '+str(self.list_size))
+            # elif int(choice) > self.dataset.length:
+            #     print('Specify a number less than '+str(self.dataset.length))
             else:
                 return int(choice)
 
     # Pick items at random out of the list
     def pick(self, samplesize):
-        return numpy.random.choice(self.CSV.filtered_list, samplesize, replace=False)
+        result = []
+        for num, element in enumerate(self.dataset, 1):
+            if len(result) < samplesize:
+                result.append(element)
+            else:
+                s = int(random.random() * num)
+                if s < samplesize:
+                    result[s] = element
+            if num % 20000 == 0:
+                print('Iterated over {0} candidates'.format(str(num)))
+        return result

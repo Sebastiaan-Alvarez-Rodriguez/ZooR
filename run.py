@@ -12,6 +12,8 @@ check_version()
 
 import lib.settings as s
 import lib.csv.csv as csv
+import lib.data.dataset as dataset
+import lib.filter.filterhandler as filterhandler
 import lib.picker.picker as picker
 import lib.zoo.zoodownloader as zoo
 
@@ -62,14 +64,17 @@ def main():
     print('Hello, this tool has been made to download samples from androzoo dataset')
     print('')
 
-    csvfile = csv.CSV()
-    if csvfile.list_size == 0:
-        return
-    
-    pick = picker.Picker(csvfile)
-    samplesize = pick.ask_samplesize()
+    data_set = dataset.Dataset(csv.CSV(),filterhandler.get_filter())
 
-    sample_array = pick.pick(samplesize)
+    print('Dataset ready for use')
+
+    pick = picker.Picker(data_set)
+
+    sample_size = pick.ask_samplesize()
+
+    print('Starting selection procedure')
+    sample_array = pick.pick(sample_size)
+    print('Done!')
     zoo.download(sample_array)
 
 if __name__ == '__main__':

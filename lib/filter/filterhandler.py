@@ -38,7 +38,7 @@ def ask_size_range():
             print('Min is more than max. Try again')
         else:
             maximum = int(choice)
-            return range(minimum, maximum)
+            return minimum, maximum
 
 # Ask user what to use as markets filter
 def ask_markets():
@@ -103,7 +103,7 @@ def ask_virusrange():
         if minimum > maximum:
             print('Minimum date greater than maximum. Try again')
         else:
-            return range(minimum, maximum)
+            return minimum, maximum
 
 # ask user for a directory+filename
 def ask_filtername(question):
@@ -120,14 +120,14 @@ def ask_filtername(question):
 def ask_filter():
     return_filter = filtor.Filter()
     if menu.standard_yesno('Do you want a size range?'):
-        return_filter.size_range = ask_size_range()
+        return_filter.size_min, return_filter.size_min = ask_size_range()
     if menu.standard_yesno('Do you want to specify markets?'):
         return_filter.markets = ask_markets()
     if menu.standard_yesno('Do you want a date range?'):
         return_filter.date_min, return_filter.date_max = ask_dates()
     if menu.standard_yesno('Do you want a virus indication range?'):
         print('0 means not a virus. Higher means detected as virus more often')
-        return_filter.virus_detect_rating_range = ask_virusrange()
+        return_filter.virus_detect_min, return_filter.virus_detect_max = ask_virusrange()
 
     if menu.standard_yesno('Do you want to save this filter configuration?'):
         filename = ask_filtername('Please give a filename')
