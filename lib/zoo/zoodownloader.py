@@ -7,7 +7,7 @@ import lib.download as dld
 import lib.firepool as firepool
 
 def parallel_download(element, directory, baseurl):
-    path = os.path.join(directory, '{0}.apk'.format(element.md5))
+    path = os.path.join(directory, 'androzoo-{0}.apk'.format(element.md5))
     totalurl = '{0}&sha256={1}'.format(baseurl,element.sha256)
     dld.perform_download(path, totalurl)
 

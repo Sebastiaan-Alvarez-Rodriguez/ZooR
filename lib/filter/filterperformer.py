@@ -25,7 +25,7 @@ class Filterperformer(object):
     @staticmethod
     def match_date(date, in_filter):
         ok = True
-        c_date = datetime.datetime.strptime(dex_date.split(' ')[0], "%Y-%m-%d").date() if in_filter.date_min or in_filter.date_max else None
+        c_date = datetime.datetime.strptime(date.split(' ')[0], "%Y-%m-%d").date() if in_filter.date_min or in_filter.date_max else None
         if in_filter.date_min != None:
             ok = c_date >= in_filter.date_min
         if ok and in_filter.date_max != None:
