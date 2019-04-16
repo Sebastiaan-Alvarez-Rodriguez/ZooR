@@ -37,9 +37,9 @@ class Filter(object):
         if 'size' in config and 'min' in config['size'] and 'max' in config['size']:
                 self.size_range = range(int(config['size']['min']), int(config['size']['max']))
         if 'date' in config:
-            if 'min' in config:
+            if 'min' in config['date']:
                 self.date_min = datetime.datetime.strptime(config['date']['min'], "%Y-%m-%d").date()
-            if 'max' in config:
+            if 'max' in config['date']:
                 self.date_max = datetime.datetime.strptime(config['date']['max'], "%Y-%m-%d").date()
         if 'virusrating' in config:
             if 'min' in config['virusrating']:
@@ -75,3 +75,9 @@ class Filter(object):
         
         with open(path, 'w') as file:
             config.write(file)
+
+    def __hash__(self):
+        return hash(str(self.size_min)+str(self.size_max)\
+            +str(self.markets)+str(self.date_min)\
+            +str(self.date_max)+str(self.virus_detect_min)\
+            +str(self.virus_detect_max))

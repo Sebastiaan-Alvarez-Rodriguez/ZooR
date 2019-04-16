@@ -14,8 +14,6 @@ def download(path, url):
         out_file.write(u.read())
 
 def extract(compressed_path, decompressed_path):
-    print(compressed_path)
-    print(decompressed_path)
     if compressed_path.endswith(".tar")\
     or compressed_path.endswith(".tar.xz")\
     or compressed_path.endswith(".tar.gz")\
@@ -39,9 +37,18 @@ def extract(compressed_path, decompressed_path):
 
 # Perform a download operation
 def perform_download(path, url, extraced_path=None):
-    download(path, url)
-    if extraced_path != None:
-        if path.endswith(".tar") or path.endswith(".tar.gz") \
-        or path.endswith(".tar.xz") or path.endswith(".tgz") \
-        or path.endswith(".zip") or path.endswith('.gz'):
-            extract(path, extraced_path)
+    try:
+        download(path, url)
+        if extraced_path != None:
+            if path.endswith(".tar") or path.endswith(".tar.gz") \
+            or path.endswith(".tar.xz") or path.endswith(".tgz") \
+            or path.endswith(".zip") or path.endswith('.gz'):
+                extract(path, extraced_path)
+    except urllib.error.HTTPError as e:
+        print('HTTPError = {0}'.format(str(e.code)))
+    except urllib.error.URLError as e:
+        print('URLError = {0}'.format(str(e.reason)))
+    except urllib.error.HTTPException as e:
+        print('HTTPException = {0}'.format(str(e)))
+    except Exception as e:
+        print('Error: {0}'.format(str(e)))

@@ -22,3 +22,6 @@ class CSV(object):
         except Exception as e:
             self.file.close()
             raise e
+
+    def __hash__(self):
+        return hash('{0}{1}'.format(self.path, self.file))

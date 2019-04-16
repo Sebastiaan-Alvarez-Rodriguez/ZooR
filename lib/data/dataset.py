@@ -3,11 +3,20 @@
 import lib.filter.filterperformer as filterperformer
 
 class Dataset(object):
-    def __init__(self, csv=None, in_filter=None):
+    def __init__(self, csv, in_filter):
         self.csv = csv
         self.in_filter = in_filter
-        self.filter_performer = filterperformer.Filterperformer(in_filter)
+        self.filter_performer = filterperformer.Filterperformer(self.in_filter)
         self.length = 0
+
+        print('Filter received:')
+        print('size_min: {0}'.format(in_filter.size_min))
+        print('size_max: {0}'.format(in_filter.size_max))
+        print('markets: {0}'.format(in_filter.markets))
+        print('date_min: {0}'.format(in_filter.date_min))
+        print('date_max: {0}'.format(in_filter.date_max))
+        print('virus_detect_min: {0}'.format(in_filter.virus_detect_min))
+        print('virus_detect_max: {0}'.format(in_filter.virus_detect_max))
 
     def __iter__(self):
         return self
@@ -22,26 +31,6 @@ class Dataset(object):
         except StopIteration:
             print('Iterated over {0} items'.format(str(self.length)))
             raise StopIteration
-            
-        
-# class Dataset(object):
-#     def __init__(self, data):
-#         self.data = set(data) if data != None else set([])
 
-#     def add(self, elem):
-#         self.data.append(elem)
-
-#     def contains(self, subset):
-#         return set(subset.apks).issubset(self.data)
-
-#     def is_empty(self):
-#         return len(self.data) == 0
-
-#     def __hash__(self):
-#         return hash(frozenset(self.data))
-
-#     def __len__(self):
-#         return len(self.data)
-
-#     def __iter__(self):
-#         return iter(self.data)
+    def __hash__(self):
+        return hash(self.csv)+hash(self.in_filter)

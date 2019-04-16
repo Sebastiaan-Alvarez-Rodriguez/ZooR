@@ -14,12 +14,10 @@ class Picker(object):
     # Ask user for size of sample
     def ask_samplesize(self):
         while True:
-            print('How large do you want your sample)?')
+            print('How large do you want your sample (max)?')
             choice = input('')
             if len(choice) == 0 or not choice.isdigit():
                 print('Please provide a number')
-            # elif int(choice) > self.dataset.length:
-            #     print('Specify a number less than '+str(self.dataset.length))
             else:
                 return int(choice)
 

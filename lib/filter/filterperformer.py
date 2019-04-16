@@ -9,7 +9,7 @@ class Filterperformer(object):
     def __init__(self, in_filter):
         self.filter = in_filter
     
-    @staticmethod        
+    @staticmethod
     def match_size(size, in_filter):
         ok = True
         if in_filter.size_min != None:
@@ -25,12 +25,15 @@ class Filterperformer(object):
     @staticmethod
     def match_date(date, in_filter):
         ok = True
-        c_date = datetime.datetime.strptime(date.split(' ')[0], "%Y-%m-%d").date() if in_filter.date_min or in_filter.date_max else None
+        if date != None and len(date) != 0 and (in_filter.date_min or in_filter.date_max):
+            c_date = datetime.datetime.strptime(date.split(' ')[0], "%Y-%m-%d").date()
+        else:
+            return False
         if in_filter.date_min != None:
             ok = c_date >= in_filter.date_min
         if ok and in_filter.date_max != None:
             ok = c_date <= in_filter.date_max
-        return True
+        return ok
 
     @staticmethod
     def match_virus_detect_rating(rating, in_filter):
@@ -55,8 +58,6 @@ class Filterperformer(object):
 
     # Returns whether csv line matches specified criteria
     def match_filters(self, element):
-        if not element:
-            return False
         return self.match_size(element.apk_size, self.filter) \
             and self.match_virus_detect_rating(element.vt_detection, self.filter) \
             and self.match_date(element.dex_date, self.filter) \

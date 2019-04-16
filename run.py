@@ -16,6 +16,7 @@ import lib.data.dataset as dataset
 import lib.filter.filterhandler as filterhandler
 import lib.picker.picker as picker
 import lib.zoo.zoodownloader as zoo
+import lib.menu as menu
 
 # Get absolute path to this script
 def get_loc():
@@ -64,7 +65,7 @@ def main():
     print('Hello, this tool has been made to download samples from androzoo dataset')
     print('')
 
-    data_set = dataset.Dataset(csv.CSV(),filterhandler.get_filter())
+    data_set = dataset.Dataset(csv.CSV(), filterhandler.get_filter())
 
     print('Dataset ready for use')
 
@@ -75,6 +76,11 @@ def main():
     print('Starting selection procedure')
     sample_array = pick.pick(sample_size)
     print('Done!')
+    if menu.standardyesno('Do you want to save full md5-list?'):
+        chosen_path = menu.ask_path('Please provide a path')
+        with open(chosen_path, 'w') as file:
+            for element in sample_array:
+                file.write('{0}\n'.format(element))
     zoo.download(sample_array)
 
 if __name__ == '__main__':

@@ -163,7 +163,3 @@ def get_filter():
         else:
             print('Making new filter')
             return ask_filter()
-    if menu.standard_yesno('A newer version is available from androzoo. Download?'):
-        return download_csv()
-    else:
-        return latest
