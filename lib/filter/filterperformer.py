@@ -38,13 +38,12 @@ class Filterperformer(object):
     @staticmethod
     def match_virus_detect_rating(rating, in_filter):
         ok = True
+        if rating == None and (in_filter.virus_detect_min != None or in_filter.virus_detect_max):
+            return False
+
         if in_filter.virus_detect_min != None:
-            if rating == None:
-                return False
             ok = rating >= in_filter.virus_detect_min
         if ok and in_filter.virus_detect_max != None:
-            if rating == None:
-                return False
             ok = rating <= in_filter.virus_detect_max
         return ok
 
