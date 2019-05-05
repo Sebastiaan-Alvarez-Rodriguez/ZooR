@@ -34,12 +34,12 @@ def make_key():
         keylength = len(key)
         if (keylength != 64):
             errortype = 'long' if keylength > 64 else 'short'
-            print('Error: Key too '+errortype+'. Please try again')
+            print('Error: Key too {0}. Please try again'.format(errortype))
         else:
             os.makedirs(os.path.dirname(s.keypath), exist_ok=True)
             with open(s.keypath, 'w') as file:
                 file.write(key)
-            print('Key written to '+s.keypath)
+            print('Key written to {0}'.format(s.keypath))
             return key
 
 # Get stored key if available, otherwise ask user for key

@@ -38,15 +38,15 @@ class Filterperformer(object):
         return ok
 
     @staticmethod
-    def match_virus_detect_rating(rating, in_filter):
+    def match_virus_detect_rating(rating, scanned, in_filter):
         ok = True
         if rating == None and (in_filter.virus_detect_min != None or in_filter.virus_detect_max):
             return False
 
         if in_filter.virus_detect_min != None:
-            ok = rating >= in_filter.virus_detect_min
+            ok = (rating >= in_filter.virus_detect_min) and scanned
         if ok and in_filter.virus_detect_max != None:
-            ok = rating <= in_filter.virus_detect_max
+            ok = (rating <= in_filter.virus_detect_max) and scanned
         return ok
 
     @staticmethod
@@ -60,7 +60,7 @@ class Filterperformer(object):
     # Returns whether csv line matches specified criteria
     def match_filters(self, element):
         return self.match_size(element.apk_size, self.filter) \
-            and self.match_virus_detect_rating(element.vt_detection, self.filter) \
+            and self.match_virus_detect_rating(element.vt_detection, element.vt_scan_date != '' and element.vt_scan_date != None, self.filter) \
             and self.match_date(element.dex_date, self.filter) \
             and self.match_markets(element.markets, self.filter)
 

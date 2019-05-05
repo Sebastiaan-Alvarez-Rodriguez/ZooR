@@ -7,21 +7,23 @@ def ask_directory(question, must_exist=True):
     while True:
         print(question)
         print('Paths may be absolute or relative to your working directory')
+        print('Working directory: {0}'.format(os.getcwd()))
         print('Please specify a directory:')
         choice = input('')
-        choice = choice if choice[0]=='/' else os.environ['PWD']+'/'+choice
+        choice = choice if choice[0]=='/' else os.getcwd()+'/'+choice
         choice = os.path.normpath(choice)
         if must_exist:
             if not os.path.isdir(choice):
-                print('Error: no such directory - "'+choice+'"')
+                print('Error: no such directory - "{0}"'.format(choice))
             else:
                 return choice
         else:
             if os.path.isdir(choice):
-                print('"'+choice+'" already exists')
+                print('"{0}" already exists'.format(choice))
                 if standard_yesno('continue?'):
                     return choice
             else:
+                os.makedirs(choice, exist_ok=True)
                 return choice
 
 # ask user for a directory+filename
@@ -31,12 +33,12 @@ def ask_path(question):
         print('Paths may be absolute or relative to your working directory')
         print('Please specify a path:')
         choice = input('')
-        choice = choice if choice[0]=='/' else os.environ['PWD']+'/'+choice
+        choice = choice if choice[0]=='/' else os.getcwd()+'/'+choice
         choice = os.path.normpath(choice)
         if not os.path.isdir(os.path.dirname(choice)):
-            print('Error: no such directory - "'+os.path.dirname(choice)+'"')
+            print('Error: no such directory - "{0}"'.format(os.path.dirname(choice)))
         elif os.path.isfile(choice):
-            if standard_yesno('"'+choice+'" exists, override?'):
+            if standard_yesno('"{0}" exists, override?'.format(choice)):
                 return choice
         else:
             return choice
@@ -58,4 +60,4 @@ def standard_yesno(question):
         elif choice in ('N', 'NO'):
             return False
         else:
-            print('Invalid option "'+choice+'"')
+            print('Invalid option "{0}"'.format(choice))

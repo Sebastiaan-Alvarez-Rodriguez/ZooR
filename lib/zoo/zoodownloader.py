@@ -19,7 +19,7 @@ def arg_generator(samplelist, directory, baseurl):
 
 # Gets a csv to randomly choose from
 def download(samplelist):
-    directory = menu.ask_directory('Where do you want to store apk\'s?')
+    directory = menu.ask_directory('Where do you want to store apk\'s?', must_exist=False)
     baseurl = 'https://androzoo.uni.lu/api/download?apikey={0}'.format(s.key)
 
     args = arg_generator(samplelist, directory, baseurl)

@@ -49,7 +49,7 @@ def ask_markets():
     optionsdict = menu.make_optionsdict(markets)
     while True:
         for item in optionsdict:
-            print('\t\t'+'['+str(item)+'] - '+optionsdict[item])
+            print('\t\t[{0}] - {1}'.format(str(item),optionsdict[item]))
         print('\t[E]verything')
         choice = input('Please make a choice (or multiple, comma-separated): ').upper()
         words = choice.split(',')
@@ -66,7 +66,7 @@ def ask_markets():
 # Asks user a date and returns it
 def ask_date(minmax):
     while True:
-        choice = input('Please specify a '+minmax+' date in YYYY-MM-DD: ')
+        choice = input('Please specify a {0} date in YYYY-MM-DD: '.format(minmax))
         try:
             return datetime.datetime.strptime(choice, "%Y-%m-%d").date()
         except Exception as e:
@@ -111,7 +111,7 @@ def ask_filtername(question):
         print(question)
         choice = input('')
         if os.path.isfile(choice+'.filter'):
-            if standard_yesno('"'+choice+'" exists, override?'):
+            if standard_yesno('"{0}" exists, override?'.format(choice)):
                 return choice+'.filter'
         else:
             return choice+'.filter'
@@ -141,19 +141,19 @@ def choose_filter():
     optionsdict = menu.make_optionsdict(available)
     while True:
         for item in optionsdict:
-            print('\t'+'['+str(item)+'] - '+os.path.basename(optionsdict[item]))
+            print('\t[{0}] - {1}'.format(str(item),os.path.basename(optionsdict[item])))
         choice = input('Please make a choice: ').upper()
         
         if choice.isdigit() and int(choice) in optionsdict:
             return filtor.Filter(optionsdict[int(choice)])
         else:
-            print('Unknown option "'+choice+'"')
+            print('Unknown option "{0}"'.format(choice))
     
 # Gets a filter to use for choosing
 def get_filter():
     available = get_available_filters()
     filter_amount = len(available)
-    print('Found '+str(filter_amount)+' filters')
+    print('Found {0} filters'.format(str(filter_amount)))
 
     if filter_amount == 0:
         return ask_filter()

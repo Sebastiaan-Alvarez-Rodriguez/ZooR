@@ -10,9 +10,9 @@ class Firepool(object):
     # Ask how many cores to use for execution
     def ask_cores(self, max_cores=None):
         while True:
-            print('You have '+str(multiprocessing.cpu_count())+' cores.')
+            print('You have {0} cores.'.format(str(multiprocessing.cpu_count())))
             if max_cores:
-                amount = input('How many cores can I use for processing? (max='+str(max_cores)+') ')
+                amount = input('How many cores can I use for processing? (max={0}) '.format(str(max_cores)))
             else:
                 amount = input('How many cores can I use for processing? ')
             if not amount.isdigit():

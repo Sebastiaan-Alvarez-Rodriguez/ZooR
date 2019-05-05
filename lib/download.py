@@ -7,7 +7,7 @@ import gzip
 import shutil
 
 def download(path, url):
-    print('downloading '+url)
+    print('downloading {0}'.format(url))
 
     u = urllib.request.urlopen(url)
     with open(path, 'wb') as out_file:
@@ -18,16 +18,16 @@ def extract(compressed_path, decompressed_path):
     or compressed_path.endswith(".tar.xz")\
     or compressed_path.endswith(".tar.gz")\
     or compressed_path.endswith(".tgz"):
-        print('extracting ' + os.path.basename(compressed_path))
+        print('extracting {0}'.format(os.path.basename(compressed_path)))
         ttar = tarfile.open(compressed_path, 'r')
         ttar.extractall(path=decompressed_path)
     elif compressed_path.endswith(".zip"):
-        print('extracting ' + os.path.basename(compressed_path))
+        print('extracting {0}'.format(os.path.basename(compressed_path)))
         tzip = zipfile.ZipFile(compressed_path, 'r')
         tzip.extractall(decompressed_path)
         tzip.close()
     elif compressed_path.endswith(".gz"):
-        print('extracting ' + os.path.basename(compressed_path))
+        print('extracting {0}'.format(os.path.basename(compressed_path)))
         with gzip.open(compressed_path, 'rb') as f_in:
             with open(decompressed_path, 'wb') as f_out:
                 shutil.copyfileobj(f_in, f_out)
