@@ -76,7 +76,7 @@ def main():
     print('Starting selection procedure')
     sample_array = pick.pick(sample_size)
     print('Done!')
-    if menu.standardyesno('Do you want to save full md5-list?'):
+    if menu.standard_yesno('Do you want to save full md5-list?'):
         chosen_path = menu.ask_path('Please provide a path')
         with open(chosen_path, 'w') as file:
             for element in sample_array:
